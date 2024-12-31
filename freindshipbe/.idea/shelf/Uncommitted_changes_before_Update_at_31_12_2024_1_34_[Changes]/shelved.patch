@@ -1,0 +1,415 @@
+Index: pom.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project xmlns=\"http://maven.apache.org/POM/4.0.0\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\r\n\txsi:schemaLocation=\"http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd\">\r\n\t<modelVersion>4.0.0</modelVersion>\r\n\t<parent>\r\n\t\t<groupId>org.springframework.boot</groupId>\r\n\t\t<artifactId>spring-boot-starter-parent</artifactId>\r\n\t\t<version>3.4.1</version>\r\n\t\t<relativePath/> <!-- lookup parent from repository -->\r\n\t</parent>\r\n\t<groupId>com.levdevs</groupId>\r\n\t<artifactId>freindshipbe</artifactId>\r\n\t<version>0.0.1-SNAPSHOT</version>\r\n\t<name>freindshipbe</name>\r\n\t<description>Demo project for Spring Boot</description>\r\n\t<url/>\r\n\t<licenses>\r\n\t\t<license/>\r\n\t</licenses>\r\n\t<developers>\r\n\t\t<developer/>\r\n\t</developers>\r\n\t<scm>\r\n\t\t<connection/>\r\n\t\t<developerConnection/>\r\n\t\t<tag/>\r\n\t\t<url/>\r\n\t</scm>\r\n\t<properties>\r\n\t\t<java.version>17</java.version>\r\n\t</properties>\r\n\t<dependencies>\r\n\r\n\t\t<dependency>\r\n\t\t\t<groupId>org.springframework.boot</groupId>\r\n\t\t\t<artifactId>spring-boot-starter-data-rest</artifactId>\r\n\t\t</dependency>\r\n\r\n\t\t<dependency>\r\n\t\t\t<groupId>org.springframework.boot</groupId>\r\n\t\t\t<artifactId>spring-boot-starter-data-jpa</artifactId>\r\n\t\t</dependency>\r\n\t\t<dependency>\r\n\t\t\t<groupId>org.springframework.boot</groupId>\r\n\t\t\t<artifactId>spring-boot-starter-web</artifactId>\r\n\t\t</dependency>\r\n\r\n\t\t<dependency>\r\n\t\t\t<groupId>org.springframework.boot</groupId>\r\n\t\t\t<artifactId>spring-boot-devtools</artifactId>\r\n\t\t\t<scope>runtime</scope>\r\n\t\t\t<optional>true</optional>\r\n\t\t</dependency>\r\n\t\t<dependency>\r\n\t\t\t<groupId>com.mysql</groupId>\r\n\t\t\t<artifactId>mysql-connector-j</artifactId>\r\n\t\t\t<scope>runtime</scope>\r\n\t\t</dependency>\r\n\t\t<dependency>\r\n\t\t\t<groupId>org.springframework.boot</groupId>\r\n\t\t\t<artifactId>spring-boot-starter-test</artifactId>\r\n\t\t\t<scope>test</scope>\r\n\t\t</dependency>\r\n\t</dependencies>\r\n\r\n\t<build>\r\n\t\t<plugins>\r\n\t\t\t<plugin>\r\n\t\t\t\t<groupId>org.springframework.boot</groupId>\r\n\t\t\t\t<artifactId>spring-boot-maven-plugin</artifactId>\r\n\t\t\t</plugin>\r\n\t\t</plugins>\r\n\t</build>\r\n\r\n</project>\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/pom.xml b/pom.xml
+--- a/pom.xml	(revision ecbb5d0c1445060a5e29f863fbcda4d139ad36b2)
++++ b/pom.xml	(date 1735626084116)
+@@ -36,6 +36,18 @@
+ 			<artifactId>spring-boot-starter-data-rest</artifactId>
+ 		</dependency>
+ 
++		<dependency>
++			<groupId>org.springdoc</groupId>
++			<artifactId>springdoc-openapi-ui</artifactId>
++			<version>1.8.0</version> <!-- Use the latest version -->
++		</dependency>
++
++
++		<dependency>
++			<groupId>org.springframework.boot</groupId>
++			<artifactId>spring-boot-starter-validation</artifactId>
++		</dependency>
++
+ 		<dependency>
+ 			<groupId>org.springframework.boot</groupId>
+ 			<artifactId>spring-boot-starter-data-jpa</artifactId>
+Index: src/main/java/com/levdevs/freindshipbe/controller/ApiController.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/levdevs/freindshipbe/controller/ApiController.java b/src/main/java/com/levdevs/freindshipbe/controller/ApiController.java
+new file mode 100644
+--- /dev/null	(date 1735624395561)
++++ b/src/main/java/com/levdevs/freindshipbe/controller/ApiController.java	(date 1735624395561)
+@@ -0,0 +1,23 @@
++package com.levdevs.freindshipbe.controller;
++
++
++import com.levdevs.freindshipbe.DTO.ApiRequestDto;
++import jakarta.validation.Valid;
++import org.springframework.http.ResponseEntity;
++import org.springframework.web.bind.annotation.PostMapping;
++import org.springframework.web.bind.annotation.RequestBody;
++import org.springframework.web.bind.annotation.RequestMapping;
++import org.springframework.web.bind.annotation.RestController;
++
++@RestController
++@RequestMapping("/api")
++public class ApiController {
++    @PostMapping("/checkin")
++    public ResponseEntity<String> handleCheckIn(@RequestBody @Valid ApiRequestDto request) {
++        // Process the request
++        System.out.println("Received request: " + request);
++
++        // Return a response
++        return ResponseEntity.ok("Check-in details processed successfully.");
++    }
++}
+Index: src/main/java/com/levdevs/freindshipbe/enums/VisitType.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/levdevs/freindshipbe/enums/VisitType.java b/src/main/java/com/levdevs/freindshipbe/enums/VisitType.java
+new file mode 100644
+--- /dev/null	(date 1735625239607)
++++ b/src/main/java/com/levdevs/freindshipbe/enums/VisitType.java	(date 1735625239607)
+@@ -0,0 +1,7 @@
++package com.levdevs.freindshipbe.enums;
++
++public enum VisitType {
++    HOSPITAL_INPATIENT,
++    HOSPITAL_OUTPATIENT,
++    DOCTOR_APPOINTMENT;
++}
+Index: src/main/java/com/levdevs/freindshipbe/validation/RoomRequiredForInpatient.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/levdevs/freindshipbe/validation/RoomRequiredForInpatient.java b/src/main/java/com/levdevs/freindshipbe/validation/RoomRequiredForInpatient.java
+new file mode 100644
+--- /dev/null	(date 1735623964242)
++++ b/src/main/java/com/levdevs/freindshipbe/validation/RoomRequiredForInpatient.java	(date 1735623964242)
+@@ -0,0 +1,19 @@
++package com.levdevs.freindshipbe.validation;
++
++import jakarta.validation.Constraint;
++import jakarta.validation.Payload;
++
++import java.lang.annotation.ElementType;
++import java.lang.annotation.Retention;
++import java.lang.annotation.RetentionPolicy;
++import java.lang.annotation.Target;
++
++// Define custom annotation to apply validation
++@Target({ElementType.FIELD, ElementType.PARAMETER})
++@Retention(RetentionPolicy.RUNTIME)
++@Constraint(validatedBy = RoomValidator.class)
++public @interface RoomRequiredForInpatient {
++    String message() default "Room is required for inpatient visits";
++    Class<?>[] groups() default {};
++    Class<? extends Payload>[] payload() default {};
++}
+Index: src/main/java/com/levdevs/freindshipbe/DTO/ApiRequestDto.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/levdevs/freindshipbe/DTO/ApiRequestDto.java b/src/main/java/com/levdevs/freindshipbe/DTO/ApiRequestDto.java
+new file mode 100644
+--- /dev/null	(date 1735624507912)
++++ b/src/main/java/com/levdevs/freindshipbe/DTO/ApiRequestDto.java	(date 1735624507912)
+@@ -0,0 +1,137 @@
++//package com.levdevs.freindshipbe.DTO;
++//
++//import java.util.List;
++//
++//public record ApiRequestDto(
++//        String friendshipHouseLocation,
++//        PatientDto patient,
++//        List<GuestDto> guests
++//) {}
++//
++// record PatientDto(
++//        String firstName,
++//        String lastName,
++//        String hospital,
++//        String patientCondition,
++//        VisitTypeDto visitType
++//) {}
++//
++// record VisitTypeDto(
++//        String type,
++//        String room
++//) {}
++//
++// record GuestDto(
++//        String firstName,
++//        String lastName,
++//        String relationship,
++//        String gender,
++//        String cell,
++//        String email,
++//        AddressDto address,
++//        CheckInDetailsDto checkInDetails
++//) {}
++//
++// record AddressDto(
++//        String street,
++//        String houseNumber,
++//        String entrance,
++//        String city,
++//        String state,
++//        String zip
++//) {}
++//
++// record CheckInDetailsDto(
++//        String checkInDate,
++//        String checkOutDate
++//) {}
++
++package com.levdevs.freindshipbe.DTO;
++
++
++
++import com.levdevs.freindshipbe.validation.RoomRequiredForInpatient;
++import jakarta.validation.Valid;
++import jakarta.validation.constraints.*;
++import java.util.List;
++
++public record ApiRequestDto(
++        @NotBlank(message = "Friendship House Location is required")
++        String friendshipHouseLocation,
++
++        @NotNull(message = "Patient details are required")
++        PatientDto patient,
++
++        @NotEmpty(message = "At least one guest is required")
++        List<@Valid GuestDto> guests // Validate each guest in the list
++) {}
++
++record PatientDto(
++        @NotBlank(message = "First name is required")
++        String firstName,
++
++        @NotBlank(message = "Last name is required")
++        String lastName,
++
++        @NotBlank(message = "Hospital name is required")
++        String hospital,
++
++        @NotBlank(message = "Patient condition is required")
++        String patientCondition,
++
++        @NotNull(message = "Visit type details are required")
++        VisitTypeDto visitType
++) {}
++
++record GuestDto(
++        @NotBlank(message = "First name is required")
++        String firstName,
++
++        @NotBlank(message = "Last name is required")
++        String lastName,
++
++        @NotBlank(message = "Relationship is required")
++        String relationship,
++
++        @Pattern(regexp = "Male|Female|Other", message = "Gender must be Male, Female, or Other")
++        String gender,
++
++        @Pattern(regexp = "\\d{3}-\\d{3}-\\d{4}", message = "Cell number must match the format xxx-xxx-xxxx")
++        String cell,
++
++        @Email(message = "Email must be a valid format")
++        String email,
++
++        @NotNull(message = "Address details are required")
++        AddressDto address,
++
++        @NotNull(message = "Check-in details are required")
++        CheckInDetailsDto checkInDetails
++) {}
++
++record AddressDto(
++        @NotBlank(message = "Street is required")
++        String street,
++
++        @NotBlank(message = "House number is required")
++        String houseNumber,
++
++        String entrance, // Optional field
++
++        @NotBlank(message = "City is required")
++        String city,
++
++        @Pattern(regexp = "[A-Z]{2}", message = "State must be a valid 2-letter code")
++        String state,
++
++        @Pattern(regexp = "\\d{5}", message = "ZIP code must be a 5-digit number")
++        String zip
++) {}
++
++record CheckInDetailsDto(
++        @Pattern(regexp = "\\d{4}-\\d{2}-\\d{2}", message = "Check-in date must be in the format yyyy-MM-dd")
++        String checkInDate,
++
++        @Pattern(regexp = "\\d{4}-\\d{2}-\\d{2}", message = "Check-out date must be in the format yyyy-MM-dd")
++        String checkOutDate
++) {}
+Index: src/main/java/com/levdevs/freindshipbe/validation/RoomValidator.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/levdevs/freindshipbe/validation/RoomValidator.java b/src/main/java/com/levdevs/freindshipbe/validation/RoomValidator.java
+new file mode 100644
+--- /dev/null	(date 1735626517983)
++++ b/src/main/java/com/levdevs/freindshipbe/validation/RoomValidator.java	(date 1735626517983)
+@@ -0,0 +1,34 @@
++package com.levdevs.freindshipbe.validation;
++
++import com.levdevs.freindshipbe.DTO.VisitTypeDto;
++
++import jakarta.validation.ConstraintValidator;
++import jakarta.validation.ConstraintValidatorContext;
++
++public class RoomValidator implements ConstraintValidator<RoomRequiredForInpatient, String> {
++
++
++    @Override
++    public boolean isValid(String room, ConstraintValidatorContext context) {
++        VisitTypeDto visitTypeDto = (VisitTypeDto) context.unwrap(VisitTypeDto.class);
++
++        if (visitTypeDto != null && "hospital inpatient".equals(visitTypeDto.type())) {
++            return room != null && room.matches("\\d+");
++        }
++        return true;
++    }
++//    @Override
++//    public boolean isValid(String room, ConstraintValidatorContext context) {
++//        // Retrieve the visit type from the DTO instance
++//
++//
++//       VisitTypeDto visitTypeDto = (VisitTypeDto) context.getConstraintValidatorContext().getConstraintsForClass();
++//
++//      if (visitTypeDto != null && "hospital inpatient".equals(visitTypeDto.type())) {
++//            // Only validate the room number for "hospital inpatient" visit type
++//            return room != null && room.matches("\\d+");
++//       }
++//        // For other visit types, room is not required
++//        return true;
++//    }
++}
+Index: src/main/java/com/levdevs/freindshipbe/FreindshipbeApplication.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/levdevs/freindshipbe/FreindshipbeApplication.java b/src/main/java/com/levdevs/freindshipbe/FreindshipbeApplication.java
+new file mode 100644
+--- /dev/null	(date 1735625794842)
++++ b/src/main/java/com/levdevs/freindshipbe/FreindshipbeApplication.java	(date 1735625794842)
+@@ -0,0 +1,13 @@
++package com.levdevs.freindshipbe;
++
++import org.springframework.boot.SpringApplication;
++import org.springframework.boot.autoconfigure.SpringBootApplication;
++
++@SpringBootApplication
++public class FreindshipbeApplication {
++
++    public static void main(String[] args) {
++        SpringApplication.run(FreindshipbeApplication.class, args);
++    }
++
++}
+Index: src/main/java/com/levdevs/freindshipbe/validation/EnumValueValidator.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/levdevs/freindshipbe/validation/EnumValueValidator.java b/src/main/java/com/levdevs/freindshipbe/validation/EnumValueValidator.java
+new file mode 100644
+--- /dev/null	(date 1735624949414)
++++ b/src/main/java/com/levdevs/freindshipbe/validation/EnumValueValidator.java	(date 1735624949414)
+@@ -0,0 +1,29 @@
++package com.levdevs.freindshipbe.validation;
++
++import jakarta.validation.ConstraintValidator;
++import jakarta.validation.ConstraintValidatorContext;
++
++public class EnumValueValidator implements ConstraintValidator<EnumValue, String> {
++
++    private Enum<?>[] enumValues;
++
++    @Override
++    public void initialize(EnumValue annotation) {
++        enumValues = annotation.enumClass().getEnumConstants();
++    }
++
++    @Override
++    public boolean isValid(String value, ConstraintValidatorContext context) {
++        if (value == null || value.isEmpty()) {
++            return true;  // Other validations like @NotBlank will handle null/empty
++        }
++
++        for (Enum<?> enumValue : enumValues) {
++            if (enumValue.name().equalsIgnoreCase(value)) {
++                return true;  // If the value matches any enum constant, it's valid
++            }
++        }
++        return false;  // Otherwise, it's invalid
++    }
++}
++
+Index: src/main/java/com/levdevs/freindshipbe/validation/EnumValue.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/levdevs/freindshipbe/validation/EnumValue.java b/src/main/java/com/levdevs/freindshipbe/validation/EnumValue.java
+new file mode 100644
+--- /dev/null	(date 1735624918408)
++++ b/src/main/java/com/levdevs/freindshipbe/validation/EnumValue.java	(date 1735624918408)
+@@ -0,0 +1,18 @@
++package com.levdevs.freindshipbe.validation;
++
++import jakarta.validation.Constraint;
++import jakarta.validation.Payload;
++import java.lang.annotation.ElementType;
++import java.lang.annotation.Retention;
++import java.lang.annotation.RetentionPolicy;
++import java.lang.annotation.Target;
++
++@Target({ElementType.FIELD, ElementType.PARAMETER})
++@Retention(RetentionPolicy.RUNTIME)
++@Constraint(validatedBy = EnumValueValidator.class)
++public @interface EnumValue {
++    String message() default "Invalid value";
++    Class<?>[] groups() default {};
++    Class<? extends Payload>[] payload() default {};
++    Class<? extends Enum<?>> enumClass();  // Specify the enum class
++}
+Index: src/main/java/com/levdevs/freindshipbe/DTO/VisitTypeDto.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/levdevs/freindshipbe/DTO/VisitTypeDto.java b/src/main/java/com/levdevs/freindshipbe/DTO/VisitTypeDto.java
+new file mode 100644
+--- /dev/null	(date 1735625273640)
++++ b/src/main/java/com/levdevs/freindshipbe/DTO/VisitTypeDto.java	(date 1735625273640)
+@@ -0,0 +1,16 @@
++package com.levdevs.freindshipbe.DTO;
++
++import com.levdevs.freindshipbe.enums.VisitType;
++import com.levdevs.freindshipbe.validation.EnumValue;
++import com.levdevs.freindshipbe.validation.RoomRequiredForInpatient;
++import jakarta.validation.constraints.NotBlank;
++
++public record VisitTypeDto(
++        @NotBlank(message = "Visit type is required")
++        @EnumValue(enumClass = VisitType.class, message = "Invalid visit type")
++        String type,
++
++//        @Pattern(regexp = "\\d+", message = "Room must be a valid numeric value")
++        @RoomRequiredForInpatient(message = "Room is required for inpatient visits")
++        String room
++) {}
