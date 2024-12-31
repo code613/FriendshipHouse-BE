@@ -4,7 +4,38 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="edc7eda9-0bdf-4e6d-a1b4-2521d29b922f" name="Changes" comment="adding changes for creating new api" />
+    <list default="true" id="edc7eda9-0bdf-4e6d-a1b4-2521d29b922f" name="Changes" comment="adding changes for creating new api">
+      <change afterPath="$PROJECT_DIR$/../.idea/FriendshipHouse-BE2.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/levdevs/freindshipbe/DTO/ApiRequestDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/levdevs/freindshipbe/DTO/VisitTypeDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/levdevs/freindshipbe/controller/ApiController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/levdevs/freindshipbe/enums/VisitType.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/levdevs/freindshipbe/validation/EnumValue.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/levdevs/freindshipbe/validation/EnumValueValidator.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/levdevs/freindshipbe/validation/RoomRequiredForInpatient.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/levdevs/freindshipbe/validation/RoomValidator.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/application.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/levdevs/freindshipbe/DAO/PatientRepo.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/levdevs/freindshipbe/DTO/AddressDto.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/levdevs/freindshipbe/DTO/ApiRequestDto.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/levdevs/freindshipbe/DTO/CheckInDetailsDto.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/levdevs/freindshipbe/DTO/GuestDto.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/levdevs/freindshipbe/DTO/PatientDto.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/levdevs/freindshipbe/DTO/VisitTypeDto.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/levdevs/freindshipbe/Entity/Patient.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/levdevs/freindshipbe/FreindshipbeApplication.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/levdevs/freindshipbe/controller/ApiController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/levdevs/freindshipbe/enums/VisitType.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/levdevs/freindshipbe/validation/EnumValue.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/levdevs/freindshipbe/validation/EnumValueValidator.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/levdevs/freindshipbe/validation/RoomRequiredForInpatient.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/levdevs/freindshipbe/validation/RoomValidator.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/levdevs/freindshipbe/FreindshipbeApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/levdevs/freindshipbe/FreindshipbeApplication.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -29,18 +60,18 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
     <option name="UPDATE_TYPE" value="REBASE" />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPEN",
-    "assignee": "code613"
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;code613&quot;
   }
-}]]></component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/code613/FriendshipHouse-BE.git",
-    "accountId": "1183df72-7544-4f04-9849-7d3ce7ba0bb3"
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/code613/FriendshipHouse-BE.git&quot;,
+    &quot;accountId&quot;: &quot;1183df72-7544-4f04-9849-7d3ce7ba0bb3&quot;
   }
-}]]></component>
+}</component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/src/main/java/com/levdevs/freindshipbe/DTO/VisitTypeDto.java" root0="FORCE_HIGHLIGHTING" />
   </component>
@@ -60,6 +91,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "Merging develop",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Users/user/IdeaProjects/FriendshipHouse-BE2/freindshipbe"
   }
@@ -80,6 +112,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.FreindshipbeApplication" />
         <item itemvalue="Application.FreindshipbeApplication" />
         <item itemvalue="Application.FreindshipbeApplication" />
       </list>
@@ -107,6 +140,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="adding changes for creating new api" />
-    <option name="LAST_COMMIT_MESSAGE" value="adding changes for creating new api" />
+    <MESSAGE value="adding files for creating api for initial form" />
+    <option name="LAST_COMMIT_MESSAGE" value="adding files for creating api for initial form" />
   </component>
 </project>
