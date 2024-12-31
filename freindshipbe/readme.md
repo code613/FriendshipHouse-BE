@@ -40,3 +40,11 @@ docker-compose up --build
 
 and check that both db and app are running...
 
+added swagger need to use this link
+http://localhost:8080/swagger-ui/index.html
+
+if that doesn't wotk then try
+http://localhost:8080/v3/api-docs
+for full docs
+and aybe this will work
+http://localhost:8080/swagger-ui/
