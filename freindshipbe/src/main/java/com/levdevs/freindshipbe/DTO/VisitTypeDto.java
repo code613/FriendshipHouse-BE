@@ -8,7 +8,7 @@ import jakarta.validation.constraints.Pattern;
 
 public  record VisitTypeDto(
         @NotBlank(message = "Visit type is required")
-        @EnumValue(enumClass = VisitType.class, message = "Invalid visit type")
+   //     @EnumValue(enumClass = VisitType.class, message = "Invalid visit type")
         String type,
 
 //        @Pattern(regexp = "\\d+", message = "Room must be a valid numeric value")
