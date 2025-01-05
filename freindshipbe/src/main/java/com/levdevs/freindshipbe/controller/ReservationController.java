@@ -37,11 +37,9 @@ import java.util.stream.Collectors;
 @RequestMapping("/reservations")
 public class ReservationController {
     private final ReservationService reservationService;
-    private final LocationService locationService;
 
-    public ReservationController(ReservationService reservationService, LocationService locationService) {
+    public ReservationController(ReservationService reservationService) {
         this.reservationService = reservationService;
-        this.locationService = locationService;
     }
 
     @PostMapping
@@ -52,6 +50,11 @@ public class ReservationController {
         Reservation responce = reservationService.saveReservation(reservation);
         System.out.println("reservation saved: " + responce);
         return ResponseEntity.ok(responce);
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<List<Reservation>> getAllReservations() {
+        return ResponseEntity.ok(reservationService.getAllReservations());
     }
 
     @GetMapping("/{id}")
@@ -65,11 +68,7 @@ public class ReservationController {
         return ResponseEntity.ok("Reservation deleted successfully.");
     }
 
-    @GetMapping("/locations")
-    public ResponseEntity<List<Location>> getAllLocations() {
-        List<Location> locations = locationService.getAllLocations();
-        return ResponseEntity.ok(locations);
-    }
+
 
     // Assuming you have Reservation, PatientEntity, GuestEntity classes
     private Reservation mapToEntity(ApiRequestDto request) {
@@ -96,14 +95,14 @@ public class ReservationController {
         Patient patient = new Patient();
         patient.setFirstName(patientDto.firstName());
         patient.setLastName(patientDto.lastName());
-        patient.setHospital(patientDto.hospital());
-        patient.setPatientCondition(patientDto.patientCondition());
+        patient.setFacility(patientDto.facility());
+        patient.setPatientCondition(patientDto.condition());
 
         // Assuming VisitTypeDto maps to some VisitTypeEntity
 //        VisitType visitType = mapVisitTypeToEntity(patientDto.visitType());
 //        patient.setVisitType(visitType);
-        patient.setType(patientDto.type());
-        patient.setRoom(patientDto.room());
+        patient.setType(patientDto.visitType());
+        patient.setRoom(patientDto.roomNumber());
 
         return patient;
     }

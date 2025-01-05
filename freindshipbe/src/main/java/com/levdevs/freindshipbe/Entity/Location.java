@@ -1,9 +1,6 @@
 package com.levdevs.freindshipbe.Entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
 
 @Data
@@ -21,5 +18,6 @@ public class Location {
         this.name = name;
     }
 
+    @Column(unique = true) // This makes the 'name' column unique in the database
     private String name;
 }

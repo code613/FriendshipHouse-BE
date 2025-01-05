@@ -70,7 +70,7 @@ public class Patient {
     private String lastName;
 
     @Column(nullable = false)
-    private String hospital;
+    private String facility;
 
     @Column(nullable = false)
     private String patientCondition;

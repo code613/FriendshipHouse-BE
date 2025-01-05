@@ -20,6 +20,10 @@ public class ReservationService {
         return reservationRepository.save(reservation);
     }
 
+    public List<Reservation> getAllReservations() {
+        return reservationRepository.findAll();
+    }
+
     public Reservation getReservation(Long id) {
         return reservationRepository.findById(id).orElseThrow(() -> new RuntimeException("Reservation not found"));
     }

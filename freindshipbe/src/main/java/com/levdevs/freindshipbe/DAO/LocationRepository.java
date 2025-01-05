@@ -12,4 +12,5 @@ public interface LocationRepository extends JpaRepository<Location, Long> {
 
     // If you want to fetch distinct locations (optional)
     List<Location> findDistinctByName(String name);
+    boolean existsByName(String name); // Custom query to check for duplicate names
 }
