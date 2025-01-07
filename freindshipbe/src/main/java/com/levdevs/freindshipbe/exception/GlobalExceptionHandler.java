@@ -61,10 +61,15 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorDetails);
     }
 
-    // Optionally handle other exceptions
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<String> handleGeneralException(Exception ex) {
-        System.err.println("Unexpected Error: " + ex.getMessage());
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An unexpected error occurred");
+    public ResponseEntity<Map<String, String>> handleGeneralException(Exception ex) {
+        Map<String, String> response = new HashMap<>();
+        response.put("message", "An unexpected error occurred");
+        response.put("error", ex.getMessage());
+        response.put("errorCode", "500");
+        ex.printStackTrace(); // Log the stack trace for debugging purposes
+
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
     }
+
 }

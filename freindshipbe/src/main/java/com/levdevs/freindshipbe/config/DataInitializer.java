@@ -23,6 +23,7 @@ public class DataInitializer implements CommandLineRunner {
             locationService.save(new Location("House A"));
             locationService.save(new Location("House B"));
             locationService.save(new Location("House C"));
+            locationService.save(new Location("Friendship House"));
             System.out.println("Sample locations added to the database.");
         }
     }

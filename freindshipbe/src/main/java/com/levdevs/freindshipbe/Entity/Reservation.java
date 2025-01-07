@@ -13,9 +13,12 @@ public class Reservation {
     private Long id;
 
 //    private String friendshipHouseLocation;
-    @ManyToOne(cascade = CascadeType.PERSIST) // Cascade persist ensures Location is saved when Reservation is saved
-    @JoinColumn(name = "location_id" ) //, nullable = false)
-    private Location location;  // Link to Location entity
+//    @ManyToOne(cascade = CascadeType.PERSIST) // Cascade persist ensures Location is saved when Reservation is saved
+//    @JoinColumn(name = "location_id" ) //, nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "location_id", nullable = false)
+    private Location location;   // Link to Location entity
+ //   private String locationName;  // Store only the location ID
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     private Patient patient;

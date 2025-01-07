@@ -5,6 +5,7 @@ import com.levdevs.freindshipbe.Entity.Location;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -48,4 +49,21 @@ public class LocationService {
     public void deleteLocation(Long id) {
         locationRepository.deleteById(id);
     }
+
+    public Location getLocationIdByName(String name) {
+        var locationOptional = locationRepository.findByName(name);
+        Location location = new Location();
+        if (locationOptional.isPresent()) {
+            location = locationOptional.get(); // Safe to get the value now
+            // Use the location
+        } else {
+            // Handle the case where the location was not found
+            System.out.println("Location not found!");
+        }
+        return location;
+
+//                .map(Location::getId) // Extract the ID if the location exists
+//                .orElse(0L); // Return 0 if no location is found
+    }
+
 }

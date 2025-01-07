@@ -4,23 +4,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="edc7eda9-0bdf-4e6d-a1b4-2521d29b922f" name="Changes" comment="added Reservation post/get/delete&#10;added locations get and a sample runner for a few exmples&#10;should be working till database..&#10;api changed a bit from before.. (simpuler...)">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/levdevs/freindshipbe/controller/LocationsController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/levdevs/freindshipbe/exception/ValidationException.java" afterDir="false" />
+    <list default="true" id="edc7eda9-0bdf-4e6d-a1b4-2521d29b922f" name="Changes" comment="made some api field name changes&#10;added to reservations api (get all)&#10;create locations api&#10;send error back&#10;change that db will persist after shut down">
+      <change afterPath="$PROJECT_DIR$/src/main/resources/application-dev.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/application-local.yaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/levdevs/freindshipbe/DAO/LocationRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/levdevs/freindshipbe/DAO/LocationRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/levdevs/freindshipbe/DTO/PatientDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/levdevs/freindshipbe/DTO/PatientDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/levdevs/freindshipbe/Entity/Location.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/levdevs/freindshipbe/Entity/Location.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/levdevs/freindshipbe/Entity/Patient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/levdevs/freindshipbe/Entity/Patient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/levdevs/freindshipbe/Entity/Reservation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/levdevs/freindshipbe/Entity/Reservation.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/levdevs/freindshipbe/Service/LocationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/levdevs/freindshipbe/Service/LocationService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/levdevs/freindshipbe/Service/ReservationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/levdevs/freindshipbe/Service/ReservationService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/levdevs/freindshipbe/controller/ReservationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/levdevs/freindshipbe/controller/ReservationController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/levdevs/freindshipbe/exception/GlobalExceptionHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/levdevs/freindshipbe/exception/GlobalExceptionHandler.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/levdevs/freindshipbe/DTO/PatientDto.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/levdevs/freindshipbe/DTO/PatientDto.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/levdevs/freindshipbe/DTO/VisitTypeDto.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/levdevs/freindshipbe/DTO/VisitTypeDto.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/levdevs/freindshipbe/Entity/Patient.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/levdevs/freindshipbe/Entity/Patient.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -85,6 +80,9 @@
 }</component>
   <component name="RunManager">
     <configuration name="FreindshipbeApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <envs>
+        <env name="SPRING_PROFILES_ACTIVE" value="local" />
+      </envs>
       <option name="MAIN_CLASS_NAME" value="com.levdevs.freindshipbe.FreindshipbeApplication" />
       <module name="freindshipbe" />
       <extension name="coverage">
@@ -92,6 +90,11 @@
           <option name="PATTERN" value="com.levdevs.freindshipbe.*" />
           <option name="ENABLED" value="true" />
         </pattern>
+      </extension>
+      <extension name="software.aws.toolkits.jetbrains.core.execution.JavaAwsConnectionExtension">
+        <option name="credential" />
+        <option name="region" />
+        <option name="useCurrentConnection" value="false" />
       </extension>
       <method v="2">
         <option name="Make" enabled="true" />
@@ -146,7 +149,15 @@
       <option name="project" value="LOCAL" />
       <updated>1735938258469</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="made some api field name changes&#10;added to reservations api (get all)&#10;create locations api&#10;send error back&#10;change that db will persist after shut down">
+      <option name="closed" value="true" />
+      <created>1736108336971</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1736108336971</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -154,6 +165,7 @@
     <MESSAGE value="adding changes for creating new api" />
     <MESSAGE value="can now accsess the swagger docs for all the api's" />
     <MESSAGE value="added Reservation post/get/delete&#10;added locations get and a sample runner for a few exmples&#10;should be working till database..&#10;api changed a bit from before.. (simpuler...)" />
-    <option name="LAST_COMMIT_MESSAGE" value="added Reservation post/get/delete&#10;added locations get and a sample runner for a few exmples&#10;should be working till database..&#10;api changed a bit from before.. (simpuler...)" />
+    <MESSAGE value="made some api field name changes&#10;added to reservations api (get all)&#10;create locations api&#10;send error back&#10;change that db will persist after shut down" />
+    <option name="LAST_COMMIT_MESSAGE" value="made some api field name changes&#10;added to reservations api (get all)&#10;create locations api&#10;send error back&#10;change that db will persist after shut down" />
   </component>
 </project>
