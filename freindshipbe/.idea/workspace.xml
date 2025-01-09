@@ -4,14 +4,22 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="edc7eda9-0bdf-4e6d-a1b4-2521d29b922f" name="Changes" comment="made some api field name changes&#10;added to reservations api (get all)&#10;create locations api&#10;send error back&#10;change that db will persist after shut down">
-      <change afterPath="$PROJECT_DIR$/src/main/resources/application-dev.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/application-local.yaml" afterDir="false" />
+    <list default="true" id="edc7eda9-0bdf-4e6d-a1b4-2521d29b922f" name="Changes" comment="add new prop files&#10;add another error handler&#10;fix location so it accpts only currect location strings">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/levdevs/freindshipbe/DAO/SubLocationRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/levdevs/freindshipbe/DTO/LocationDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/levdevs/freindshipbe/DTO/LocationWithoutIdDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/levdevs/freindshipbe/DTO/SubLocationDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/levdevs/freindshipbe/DTO/SubLocationWithoutIdDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/levdevs/freindshipbe/Entity/SubLocation.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/logback.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/levdevs/freindshipbe/DAO/LocationRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/levdevs/freindshipbe/DAO/LocationRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/levdevs/freindshipbe/Entity/Reservation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/levdevs/freindshipbe/Entity/Reservation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/levdevs/freindshipbe/Entity/Location.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/levdevs/freindshipbe/Entity/Location.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/levdevs/freindshipbe/Service/LocationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/levdevs/freindshipbe/Service/LocationService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/levdevs/freindshipbe/Service/ReservationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/levdevs/freindshipbe/Service/ReservationService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/levdevs/freindshipbe/config/DataInitializer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/levdevs/freindshipbe/config/DataInitializer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/levdevs/freindshipbe/controller/LocationsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/levdevs/freindshipbe/controller/LocationsController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/levdevs/freindshipbe/controller/ReservationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/levdevs/freindshipbe/controller/ReservationController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/levdevs/freindshipbe/exception/GlobalExceptionHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/levdevs/freindshipbe/exception/GlobalExceptionHandler.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
@@ -28,15 +36,15 @@
         <option value="Record" />
         <option value="AnnotationType" />
         <option value="Enum" />
-        <option value="Interface" />
         <option value="Class" />
+        <option value="Interface" />
       </list>
     </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$/.." value="develop-api" />
+        <entry key="$PROJECT_DIR$/.." value="feature/filesUpload" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
@@ -67,17 +75,17 @@
   <component name="ProjectViewState">
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.FreindshipbeApplication.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;develop&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/user/IdeaProjects/FriendshipHouse-BE2/freindshipbe&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.FreindshipbeApplication.executor": "Run",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "develop",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/user/IdeaProjects/FriendshipHouse-BE2/freindshipbe"
   }
-}</component>
+}]]></component>
   <component name="RunManager">
     <configuration name="FreindshipbeApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <envs>
@@ -102,6 +110,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.FreindshipbeApplication" />
         <item itemvalue="Application.FreindshipbeApplication" />
         <item itemvalue="Application.FreindshipbeApplication" />
         <item itemvalue="Application.FreindshipbeApplication" />
@@ -157,7 +166,15 @@
       <option name="project" value="LOCAL" />
       <updated>1736108336971</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="add new prop files&#10;add another error handler&#10;fix location so it accpts only currect location strings">
+      <option name="closed" value="true" />
+      <created>1736272004625</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1736272004625</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -166,6 +183,7 @@
     <MESSAGE value="can now accsess the swagger docs for all the api's" />
     <MESSAGE value="added Reservation post/get/delete&#10;added locations get and a sample runner for a few exmples&#10;should be working till database..&#10;api changed a bit from before.. (simpuler...)" />
     <MESSAGE value="made some api field name changes&#10;added to reservations api (get all)&#10;create locations api&#10;send error back&#10;change that db will persist after shut down" />
-    <option name="LAST_COMMIT_MESSAGE" value="made some api field name changes&#10;added to reservations api (get all)&#10;create locations api&#10;send error back&#10;change that db will persist after shut down" />
+    <MESSAGE value="add new prop files&#10;add another error handler&#10;fix location so it accpts only currect location strings" />
+    <option name="LAST_COMMIT_MESSAGE" value="add new prop files&#10;add another error handler&#10;fix location so it accpts only currect location strings" />
   </component>
 </project>

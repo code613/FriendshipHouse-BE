@@ -8,7 +8,12 @@ import com.levdevs.freindshipbe.Entity.*;
 import com.levdevs.freindshipbe.Service.LocationService;
 import com.levdevs.freindshipbe.Service.ReservationService;
 import com.levdevs.freindshipbe.enums.VisitType;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -29,6 +34,7 @@ import org.springframework.web.bind.annotation.RestController;
 //}
 
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -42,8 +48,18 @@ public class ReservationController {
         this.reservationService = reservationService;
     }
 
-    @PostMapping
-    public ResponseEntity<Reservation> createReservation(@RequestBody @Valid ApiRequestDto request) {
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<Reservation> createReservation(
+            @RequestPart("patientFile") MultipartFile patientFile,
+            @RequestPart("guestFiles") List<MultipartFile> guestFiles,
+            @RequestPart("request") @Valid ApiRequestDto request) {
+
+        System.out.println("Received request: " + request);
+        System.out.println("Received patient file: " + patientFile.getOriginalFilename());
+        System.out.println("Received guest files: " + guestFiles.stream()
+                .map(MultipartFile::getOriginalFilename)
+                .toList());
+
         // Map DTO to Entity
 //Reservation reservation = mapToEntity(request);
         System.out.println("Received request: " + request);
