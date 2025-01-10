@@ -27,7 +27,7 @@ public class ReservationService {
 
     public Reservation saveReservation(ApiRequestDto request) {
 
-        Location locationId = locationService.getLocationIdByName(request.friendshipHouseLocation());
+        Location locationId = locationService.getLocation(request.friendshipHouseLocation());
 
         Reservation reservation = mapToEntity(request,locationId);
 

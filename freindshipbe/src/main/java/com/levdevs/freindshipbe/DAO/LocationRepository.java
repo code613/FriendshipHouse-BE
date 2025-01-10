@@ -2,6 +2,7 @@ package com.levdevs.freindshipbe.DAO;
 
 
 import com.levdevs.freindshipbe.Entity.Location;
+import com.levdevs.freindshipbe.Entity.SubLocation;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
@@ -16,4 +17,7 @@ public interface LocationRepository extends JpaRepository<Location, Long> {
     // If you want to fetch distinct locations (optional)
     List<Location> findDistinctByName(String name);
     boolean existsByName(String name); // Custom query to check for duplicate names
+
+    // Query method to check if a location exists by subLocation
+    boolean existsBySubLocations(SubLocation subLocation);
 }
