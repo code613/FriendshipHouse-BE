@@ -14,10 +14,13 @@ target/
 .sts4-cache
 
 ### IntelliJ IDEA ###
-.idea
+.idea/
 *.iws
 *.iml
 *.ipr
+.idea/workspace.xml
+.idea/tasks.xml
+.idea/dictionaries
 
 ### NetBeans ###
 /nbproject/private/
