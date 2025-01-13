@@ -1,6 +1,7 @@
 package com.levdevs.freindshipbe.Entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 @Data
@@ -37,7 +38,7 @@ public class Guest {
     @Column(nullable = false)
     private String houseNumber;
 
-    private String entrance;
+//    private String entrance;
 
     @Column(nullable = false)
     private String city;
@@ -47,6 +48,9 @@ public class Guest {
 
     @Column(nullable = false)
     private String zip;
+
+    @Column(nullable = false)
+    private String country;
 
 //    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
 //    private CheckInDetails checkInDetails;

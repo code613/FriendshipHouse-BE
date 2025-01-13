@@ -117,7 +117,7 @@ public class LocationService {
         locationEntity.setName(location.name());
 
         // Check for existing SubLocations
-        List<SubLocation> subLocations = location.subLocations().stream()
+        List<SubLocation> subLocations = location.facility().stream()
                 .map(subLocationDTO -> {
                     // Check if SubLocation already exists
                     Optional<SubLocation> existingSubLocation = subLocationRepository.findByName(subLocationDTO.name());
@@ -151,7 +151,7 @@ public class LocationService {
         location.setName(updatedLocation.name());
 
         // Validate and process sublocations
-        List<SubLocation> updatedSubLocations = updatedLocation.subLocations()
+        List<SubLocation> updatedSubLocations = updatedLocation.facility()
                 .stream()
                 .map(subLocationDTO -> {
                     if (subLocationDTO.name() == null || subLocationDTO.name().isEmpty()) {
@@ -300,7 +300,7 @@ public class LocationService {
         if (locationOptional.isPresent()) {
             Location location = locationOptional.get();
             locationRepository.deleteById(location.getId());
-            deleteUnusedSubLocations(location, Collections.emptySet());
+          //  deleteUnusedSubLocations(location, Collections.emptySet());
         } else {
             // Handle the case when the location is not found
             System.out.printf("Location: %s not found!\n", name);
@@ -353,7 +353,7 @@ public class LocationService {
     private Location mapDTOToLocation(LocationWithoutIdDTO locationDTO) {
         Location location = new Location();
         location.setName(locationDTO.name());
-        List<SubLocation> subLocations = locationDTO.subLocations()
+        List<SubLocation> subLocations = locationDTO.facility()
                 .stream()
                 .map(subLocationDTO -> {
                     SubLocation subLocation = new SubLocation();

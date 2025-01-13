@@ -1,9 +1,6 @@
 package com.levdevs.freindshipbe.controller;
 
-import com.levdevs.freindshipbe.DTO.ApiRequestDto;
-import com.levdevs.freindshipbe.DTO.GuestDto;
-import com.levdevs.freindshipbe.DTO.PatientDto;
-import com.levdevs.freindshipbe.DTO.VisitTypeDto;
+import com.levdevs.freindshipbe.DTO.*;
 import com.levdevs.freindshipbe.Entity.*;
 import com.levdevs.freindshipbe.Service.LocationService;
 import com.levdevs.freindshipbe.Service.ReservationService;
@@ -49,10 +46,11 @@ public class ReservationController {
     }
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<Reservation> createReservation(
+    public ResponseEntity<ReservationAPIResponseDto> createReservation(
             @RequestPart("patientFile") MultipartFile patientFile,
             @RequestPart("guestFiles") List<MultipartFile> guestFiles,
-            @RequestPart("request") @Valid ApiRequestDto request) {
+            @RequestPart("request") @io.swagger.v3.oas.annotations.Parameter(
+                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE)) @Valid ApiRequestDto request) {
 
         System.out.println("Received request: " + request);
         System.out.println("Received patient file: " + patientFile.getOriginalFilename());
@@ -60,21 +58,25 @@ public class ReservationController {
                 .map(MultipartFile::getOriginalFilename)
                 .toList());
 
+        System.out.println("Content-Type for patientFile: " + patientFile.getContentType());
+        System.out.println("Content-Type for request: " + request); // Log raw string first
+
+
         // Map DTO to Entity
 //Reservation reservation = mapToEntity(request);
         System.out.println("Received request: " + request);
-        Reservation responce = reservationService.saveReservation(request);
+        ReservationAPIResponseDto responce = reservationService.saveReservation(request);
         System.out.println("reservation saved: " + responce);
         return ResponseEntity.ok(responce);
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<Reservation>> getAllReservations() {
+    public ResponseEntity<List<ReservationAPIResponseDto>> getAllReservations() {
         return ResponseEntity.ok(reservationService.getAllReservations());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Reservation> getReservation(@PathVariable Long id) {
+    public ResponseEntity<ReservationAPIResponseDto> getReservation(@PathVariable Long id) {
         return ResponseEntity.ok(reservationService.getReservation(id));
     }
 

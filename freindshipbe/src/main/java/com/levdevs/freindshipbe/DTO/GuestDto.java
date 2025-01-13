@@ -31,8 +31,8 @@ public record GuestDto(
 
         @NotBlank(message = "House number is required")
         String houseNumber,
-
-        String entrance, // Optional field
+//
+//        String entrance, // Optional field
 
         @NotBlank(message = "City is required")
         String city,
@@ -40,8 +40,12 @@ public record GuestDto(
         @Pattern(regexp = "[A-Z]{2}", message = "State must be a valid 2-letter code")
         String state,
 
-        @Pattern(regexp = "\\d{5}", message = "ZIP code must be a 5-digit number")
+//        @Pattern(regexp = "\\d{5}", message = "ZIP code must be a 5-digit number")
+        @NotBlank(message = "Zip code is required")
         String zip,
+
+        @NotBlank(message = "Country is required")
+        String country,
 
 //        @NotNull(message = "Check-in details are required")
 //        CheckInDetailsDto checkInDetails

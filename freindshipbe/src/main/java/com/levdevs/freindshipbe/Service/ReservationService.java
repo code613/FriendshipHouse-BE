@@ -4,6 +4,7 @@ import com.levdevs.freindshipbe.DAO.ReservationRepository;
 import com.levdevs.freindshipbe.DTO.ApiRequestDto;
 import com.levdevs.freindshipbe.DTO.GuestDto;
 import com.levdevs.freindshipbe.DTO.PatientDto;
+import com.levdevs.freindshipbe.DTO.ReservationAPIResponseDto;
 import com.levdevs.freindshipbe.Entity.Guest;
 import com.levdevs.freindshipbe.Entity.Location;
 import com.levdevs.freindshipbe.Entity.Patient;
@@ -25,26 +26,40 @@ public class ReservationService {
         this.locationService = locationService;
     }
 
-    public Reservation saveReservation(ApiRequestDto request) {
+    public ReservationAPIResponseDto saveReservation(ApiRequestDto request) {
 
         Location locationId = locationService.getLocation(request.friendshipHouseLocation());
 
         Reservation reservation = mapToEntity(request,locationId);
 
-        return reservationRepository.save(reservation);
+        return mapToDto( reservationRepository.save(reservation));
     }
 
-    public List<Reservation> getAllReservations() {
-        return reservationRepository.findAll();
+    public List<ReservationAPIResponseDto> getAllReservations() {
+        return  reservationRepository.findAll().stream()
+                .map(this::mapToDto)
+                .collect(Collectors.toList());
     }
 
-    public Reservation getReservation(Long id) {
-        return reservationRepository.findById(id).orElseThrow(() -> new RuntimeException("Reservation not found"));
+    public ReservationAPIResponseDto getReservation(Long id) {
+        return mapToDto( reservationRepository.findById(id).orElseThrow(() -> new RuntimeException("Reservation not found")));
     }
 
     public void deleteReservation(Long id) {
         reservationRepository.deleteById(id);
     }
+
+    private ReservationAPIResponseDto mapToDto(Reservation reservation) {
+        ReservationAPIResponseDto response = new ReservationAPIResponseDto();
+        response.setLocation(reservation.getLocation().getName());
+        response.setPatient(mapPatientToDto(reservation.getPatient()));
+        response.setGuests(reservation.getGuests().stream()
+                .map(this::mapGuestToDto)
+                .collect(Collectors.toList()));
+        return response;
+    }
+
+
 
     // Assuming you have Reservation, PatientEntity, GuestEntity classes
     private Reservation mapToEntity(ApiRequestDto request, Location location) {
@@ -66,6 +81,7 @@ public class ReservationService {
         return reservation;
     }
 
+
     // Method to map PatientDto to PatientEntity
     private Patient mapPatientToEntity(PatientDto patientDto) {
         Patient patient = new Patient();
@@ -83,6 +99,18 @@ public class ReservationService {
         return patient;
     }
 
+    private PatientDto mapPatientToDto(Patient patient) {
+        return new PatientDto(patient.getFirstName(), patient.getLastName(), patient.getFacility(), patient.getPatientCondition(), patient.getType(), patient.getRoom());
+    }
+
+    private GuestDto mapGuestToDto(Guest guest) {
+        return new GuestDto(guest.getFirstName(), guest.getLastName(), guest.getRelationship(), guest.getGender(),
+                guest.getCell(), guest.getEmail(), guest.getStreet(), guest.getHouseNumber(),
+                guest.getCity(), guest.getState(), guest.getZip(),guest.getCountry(), guest.getCheckInDate(), guest.getCheckOutDate());
+    }
+
+
+
     // Method to map GuestDto to GuestEntity
     private Guest mapGuestToEntity(GuestDto guestDto) {
         Guest guestEntity = new Guest();
@@ -94,7 +122,6 @@ public class ReservationService {
         guestEntity.setEmail(guestDto.email());
         guestEntity.setStreet(guestDto.street());
         guestEntity.setHouseNumber(guestDto.houseNumber());
-        guestEntity.setEntrance(guestDto.entrance());
         guestEntity.setCity(guestDto.city());
         guestEntity.setState(guestDto.state());
         guestEntity.setZip(guestDto.zip());
