@@ -1,9 +1,6 @@
 package com.levdevs.freindshipbe.controller;
 
-import com.levdevs.freindshipbe.DTO.ApiRequestDto;
-import com.levdevs.freindshipbe.DTO.GuestDto;
-import com.levdevs.freindshipbe.DTO.PatientDto;
-import com.levdevs.freindshipbe.DTO.VisitTypeDto;
+import com.levdevs.freindshipbe.DTO.*;
 import com.levdevs.freindshipbe.Entity.*;
 import com.levdevs.freindshipbe.Service.LocationService;
 import com.levdevs.freindshipbe.Service.ReservationService;
@@ -48,24 +45,38 @@ public class ReservationController {
         this.reservationService = reservationService;
     }
 
+
+//    @PostMapping( consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+//    public ResponseEntity<String> createReservation(
+//            @RequestPart("patientFile") MultipartFile patientFile) {
+//
+//        System.out.println("Received patient file: " + patientFile.getOriginalFilename());
+//        System.out.println("reservation saved: " );
+//        return ResponseEntity.ok("responce");
+//    }
+
+
+
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<Reservation> createReservation(
+    public ResponseEntity<String> createReservation(
             @RequestPart("patientFile") MultipartFile patientFile,
-            @RequestPart("guestFiles") List<MultipartFile> guestFiles,
-            @RequestPart("request") @Valid ApiRequestDto request) {
+         //   @RequestPart("guestFiles") List<MultipartFile> guestFiles,
+            @RequestPart("request") @Valid ApiRequestDtoTest request) {
 
         System.out.println("Received request: " + request);
         System.out.println("Received patient file: " + patientFile.getOriginalFilename());
-        System.out.println("Received guest files: " + guestFiles.stream()
-                .map(MultipartFile::getOriginalFilename)
-                .toList());
+//        System.out.println("Received guest files: " + guestFiles.stream()
+//                .map(MultipartFile::getOriginalFilename)
+//                .toList());
 
         // Map DTO to Entity
 //Reservation reservation = mapToEntity(request);
         System.out.println("Received request: " + request);
-        Reservation responce = reservationService.saveReservation(request);
-        System.out.println("reservation saved: " + responce);
-        return ResponseEntity.ok(responce);
+       // Reservation responce = reservationService.saveReservation(request);
+      //  System.out.println("reservation saved: " + responce);
+      //  return ResponseEntity.ok(responce);
+        return ResponseEntity.ok("responce");
+
     }
 
     @GetMapping("/all")
