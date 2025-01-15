@@ -14,7 +14,7 @@ public record GuestDto(
         @NotBlank(message = "Relationship is required")
         String relationship,
 
-        @Pattern(regexp = "Male|Female|Other", message = "Gender must be Male, Female, or Other")
+        @Pattern(regexp = "Male|Female", message = "Gender must be Male or Female")
         String gender,
 
         @Pattern(regexp = "\\d{3}-\\d{3}-\\d{4}", message = "Cell number must match the format xxx-xxx-xxxx")
@@ -37,7 +37,7 @@ public record GuestDto(
         @NotBlank(message = "City is required")
         String city,
 
-        @Pattern(regexp = "[A-Z]{2}", message = "State must be a valid 2-letter code")
+    //    @Pattern(regexp = "[A-Z]{2}", message = "State must be a valid 2-letter code")
         String state,
 
 //        @Pattern(regexp = "\\d{5}", message = "ZIP code must be a 5-digit number")
