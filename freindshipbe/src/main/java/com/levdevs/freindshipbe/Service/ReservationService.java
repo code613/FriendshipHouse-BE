@@ -7,6 +7,8 @@ import com.levdevs.freindshipbe.Entity.Location;
 import com.levdevs.freindshipbe.Entity.Patient;
 import com.levdevs.freindshipbe.Entity.Reservation;
 import jakarta.servlet.http.HttpSession;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -22,6 +24,7 @@ public class ReservationService {
     private final ReservationRepository reservationRepository;
     private final LocationService locationService;
     private final S3Service s3Service;
+    private final Logger logger = LoggerFactory.getLogger(ReservationService.class);
 
     public ReservationService(ReservationRepository reservationRepository, LocationService locationService, S3Service s3Service) {
         this.reservationRepository = reservationRepository;
@@ -56,12 +59,14 @@ public class ReservationService {
         //check that files where uploaded
         boolean patientFileUploaded = checkIfFileUploaded(session, "patient");
         if (!patientFileUploaded) {
+            logger.error("Patient file not uploaded");
             throw new IllegalArgumentException("Patient file not uploaded");
         }
         for (int i = 0; i < reservation.getGuests().size(); i++) {
             boolean guestFileUploaded = checkIfFileUploaded(session, "guest" + i);
             if (!guestFileUploaded) {
-                throw new IllegalArgumentException("Guest file not uploaded");
+                logger.error("Guest" + i +  " file not uploaded");
+                throw new IllegalArgumentException("Guest" + i + " file not uploaded");
             }
         }
 
@@ -182,6 +187,7 @@ public class ReservationService {
         guestEntity.setZip(guestDto.zip());
         guestEntity.setCheckInDate(guestDto.checkInDate());
         guestEntity.setCheckOutDate(guestDto.checkOutDate());
+        guestEntity.setCountry(guestDto.country());
 
         return guestEntity;
     }

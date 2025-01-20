@@ -70,13 +70,12 @@ public class S3Service {
             return true;
 //            return s3Client.headObject(builder -> builder.bucket(bucketName).key(key))
 //                    .sdkHttpResponse().isSuccessful();
+        } catch (NoSuchKeyException e) {
+            logger.info("File does not exist in S3 bucket");
+            return false;
         } catch (Exception e) {
-            if (e.getMessage().contains("Not Found")) {
-                return false;
-            }
-            else{
-                throw e;
-            }
+            logger.error("Error checking if file exists in S3 bucket", e);
+            throw e;
         }
     }
 

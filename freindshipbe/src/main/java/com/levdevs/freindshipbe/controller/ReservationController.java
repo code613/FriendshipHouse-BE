@@ -50,7 +50,7 @@ public class ReservationController {
     }
 
     @PostMapping(path = "/file", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<String> uploadFile(HttpSession session,@RequestPart("path") String path, @RequestBody MultipartFile file) {
+    public ResponseEntity<String> uploadFile(HttpSession session,@RequestPart("path") String path, @RequestPart("file") MultipartFile file) {
         logger.info("Received file: {}", file.getOriginalFilename());
         logger.info("Session: {}", session.getId());
         logger.info("File size: {}", file.getSize());
@@ -60,20 +60,34 @@ public class ReservationController {
         FileUploadResponseDto response = reservationService.uploadFile(session, path, file);
 
         logger.info("File uploaded successfully: {}", response);
-        return ResponseEntity.ok("File uploaded successfully.");
+        return ResponseEntity.ok("File uploaded successfully. " + response);
     }
 
-    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    // This method will be called before every handler method to inject session information
+    @ModelAttribute
+    public SessionInfo populateSessionInfo(HttpSession session) {
+        SessionInfo sessionInfo = new SessionInfo();
+        sessionInfo.setSessionId(session.getId()); // Getting the session ID
+        return sessionInfo;
+    }
+
+    @PostMapping
     public ResponseEntity<ReservationAPIResponseDto> createReservation(
           //  @RequestPart("patientFile") MultipartFile patientFile,
-          HttpSession session,
-            @RequestPart("request")  @Valid ApiRequestDto request) {
+      //    @ModelAttribute HttpSession session,
+           // @RequestPart("request")
+       //   @ModelAttribute SessionInfo sessionInfo,  // Session Info automatically injected here
+
+          @RequestBody @Valid ApiRequestDto request,
+          HttpSession session // Directly inject HttpSession
+          ) {
         logger.info("Received request: {}", request);
         logger.info("Session: {}", session.getId());
 
         ReservationAPIResponseDto response = reservationService.saveReservation(session,request);
         System.out.println("reservation saved: " + response);
         return ResponseEntity.ok(response);
+  //      return ResponseEntity.ok(new ReservationAPIResponseDto());
     }
 
     @GetMapping("/all")
