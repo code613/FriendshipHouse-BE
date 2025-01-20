@@ -76,7 +76,7 @@ public class S3ServiceTest {
                 .thenReturn(deleteObjectResponse);
 
         // Test the moveFileToProperLocation method
-        s3Service.moveFileToProperLocation(tempFileKey, userId);
+        s3Service.moveFileWithinS3(tempFileKey, userId);
 
         // Verify the behavior
         verify(s3Client, times(1)).copyObject(any(CopyObjectRequest.class));
