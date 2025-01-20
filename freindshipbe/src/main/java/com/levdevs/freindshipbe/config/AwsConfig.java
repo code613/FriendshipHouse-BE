@@ -1,5 +1,6 @@
 package com.levdevs.freindshipbe.config;
 
+import jakarta.annotation.PreDestroy;
 import org.springframework.beans.factory.annotation.Value;
 import software.amazon.awssdk.auth.credentials.DefaultCredentialsProvider;
 import software.amazon.awssdk.regions.Region;
@@ -14,6 +15,8 @@ public class AwsConfig {
     @Value("${aws.region}")
     private String region;
 
+    private S3Presigner s3Presigner;
+
     @Bean
     public S3Client s3Client() {
         return S3Client.builder()
@@ -24,10 +27,20 @@ public class AwsConfig {
 
     @Bean
     public S3Presigner s3Presigner() {
-        return S3Presigner.builder()
+        if (s3Presigner == null){
+            s3Presigner = S3Presigner.builder()
                 .region(Region.of(region))
                 .credentialsProvider(DefaultCredentialsProvider.create())
                 .build();
+        }
+            return s3Presigner;
+    }
+
+    @PreDestroy
+    public void closeS3Presigner() {
+        if (s3Presigner != null) {
+            s3Presigner.close();
+        }
     }
 }
 // Compare this snippet from src/main/java/com/luv2code/springboot/cruddemo/security/DemoSecurityConfig.java:
