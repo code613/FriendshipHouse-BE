@@ -63,13 +63,6 @@ public class ReservationController {
         return ResponseEntity.ok("File uploaded successfully. " + response);
     }
 
-    // This method will be called before every handler method to inject session information
-    @ModelAttribute
-    public SessionInfo populateSessionInfo(HttpSession session) {
-        SessionInfo sessionInfo = new SessionInfo();
-        sessionInfo.setSessionId(session.getId()); // Getting the session ID
-        return sessionInfo;
-    }
 
     @PostMapping
     public ResponseEntity<ReservationAPIResponseDto> createReservation(
