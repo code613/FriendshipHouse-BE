@@ -9,7 +9,10 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -40,34 +43,44 @@ import java.util.stream.Collectors;
 @RequestMapping("/reservations")
 public class ReservationController {
     private final ReservationService reservationService;
+    private final Logger logger = LoggerFactory.getLogger(ReservationController.class);
 
     public ReservationController(ReservationService reservationService) {
         this.reservationService = reservationService;
     }
 
-    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(path = "/file", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<String> uploadFile(HttpSession session,@RequestPart("path") String path, @RequestPart("file") MultipartFile file) {
+        logger.info("Received file: {}", file.getOriginalFilename());
+        logger.info("Session: {}", session.getId());
+        logger.info("File size: {}", file.getSize());
+        logger.info("File type: {}", file.getContentType());
+        logger.info("Path: {}", path);
+
+        FileUploadResponseDto response = reservationService.uploadFile(session, path, file);
+
+        logger.info("File uploaded successfully: {}", response);
+        return ResponseEntity.ok("File uploaded successfully. " + response);
+    }
+
+
+    @PostMapping
     public ResponseEntity<ReservationAPIResponseDto> createReservation(
-            @RequestPart("patientFile") MultipartFile patientFile,
-            @RequestPart("guestFiles") List<MultipartFile> guestFiles,
-            @RequestPart("request") @io.swagger.v3.oas.annotations.Parameter(
-                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE)) @Valid ApiRequestDto request) {
+          //  @RequestPart("patientFile") MultipartFile patientFile,
+      //    @ModelAttribute HttpSession session,
+           // @RequestPart("request")
+       //   @ModelAttribute SessionInfo sessionInfo,  // Session Info automatically injected here
 
-        System.out.println("Received request: " + request);
-        System.out.println("Received patient file: " + patientFile.getOriginalFilename());
-        System.out.println("Received guest files: " + guestFiles.stream()
-                .map(MultipartFile::getOriginalFilename)
-                .toList());
+          @RequestBody @Valid ApiRequestDto request,
+          HttpSession session // Directly inject HttpSession
+          ) {
+        logger.info("Received request: {}", request);
+        logger.info("Session: {}", session.getId());
 
-        System.out.println("Content-Type for patientFile: " + patientFile.getContentType());
-        System.out.println("Content-Type for request: " + request); // Log raw string first
-
-
-        // Map DTO to Entity
-//Reservation reservation = mapToEntity(request);
-        System.out.println("Received request: " + request);
-        ReservationAPIResponseDto responce = reservationService.saveReservation(request);
-        System.out.println("reservation saved: " + responce);
-        return ResponseEntity.ok(responce);
+        ReservationAPIResponseDto response = reservationService.saveReservation(session,request);
+        System.out.println("reservation saved: " + response);
+        return ResponseEntity.ok(response);
+  //      return ResponseEntity.ok(new ReservationAPIResponseDto());
     }
 
     @GetMapping("/all")
