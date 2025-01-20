@@ -64,16 +64,17 @@ public class S3Service {
                     .build();
 
             HeadObjectResponse response = s3Client.headObject(headRequest);
-            logger.info("Response for checking if s3 file exists : " + response);
+            logger.info("Successful Response for checking if s3 file exists : " + response);
 
             // If the response does not throw an exception, file exists
             return true;
 //            return s3Client.headObject(builder -> builder.bucket(bucketName).key(key))
 //                    .sdkHttpResponse().isSuccessful();
         } catch (NoSuchKeyException e) {
-            logger.info("File does not exist in S3 bucket");
+            logger.info("File does not exist in S3 bucket exception: " + e);
             return false;
         } catch (Exception e) {
+            logger.info("File S3 bucket exception other then NoSuchKeyException: " + e);
             logger.error("Error checking if file exists in S3 bucket", e);
             throw e;
         }
