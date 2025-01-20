@@ -1,5 +1,6 @@
 package com.levdevs.freindshipbe.Entity;
 
+import com.levdevs.freindshipbe.enums.ReservationStatus;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -25,6 +26,8 @@ public class Reservation {
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Guest> guests;
+
+    private ReservationStatus status = ReservationStatus.NEW; // Default status is NEW
 }
 
 

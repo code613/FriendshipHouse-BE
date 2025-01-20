@@ -111,6 +111,7 @@ public class ReservationService {
 
     private ReservationAPIResponseDto mapToDto(Reservation reservation) {
         ReservationAPIResponseDto response = new ReservationAPIResponseDto();
+        response.setId(reservation.getId());
         response.setLocation(reservation.getLocation().getName());
         response.setPatient(mapPatientToDto(reservation.getPatient()));
         response.setGuests(reservation.getGuests().stream()
