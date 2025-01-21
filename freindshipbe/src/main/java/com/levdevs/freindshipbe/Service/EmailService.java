@@ -14,12 +14,21 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
+
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.Context;
+
+
+
 @Service
 public class EmailService {
 
     @Autowired
     private JavaMailSender mailSender;
     private final Logger logger = LoggerFactory.getLogger(EmailService.class);
+
+    @Autowired
+    private TemplateEngine templateEngine;
 
     @Async
     public void sendEmail(String to, String subject, String body) {
@@ -28,6 +37,33 @@ public class EmailService {
         message.setSubject(subject);
         message.setText(body);
         mailSender.send(message);
+    }
+
+    public void sendReservationConfirmationEmailTymleaf(Reservation reservation)  {
+        String recipientEmail = reservation.getGuests().get(0).getEmail();
+
+        // Create the Thymeleaf context and add variables
+        Context context = new Context();
+        context.setVariable("reservation", reservation);
+        context.setVariable("guest", reservation.getGuests().get(0));
+
+        // Process the Thymeleaf template
+        String emailBody = templateEngine.process("reservation_confirmation2", context);
+
+        // Create the email message
+        MimeMessage mimeMessage = mailSender.createMimeMessage();
+        MimeMessageHelper helper = null;
+        try {
+            helper = new MimeMessageHelper(mimeMessage, true);
+            helper.setTo(recipientEmail);
+            helper.setSubject("Reservation Confirmed");
+            helper.setText(emailBody, true); // true for HTML content
+        } catch (MessagingException e) {
+            logger.info("Error sending email: " + e.getMessage());
+            throw new RuntimeException(e);
+        }
+        // Send the email
+        mailSender.send(mimeMessage);
     }
 
     public void sendEmailHtml(String recipientEmail, String subject, String emailBody)  {

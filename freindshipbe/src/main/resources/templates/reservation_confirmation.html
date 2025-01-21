@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+<h2>Dear [[${guest.firstName}]],</h2>
+<p>Your reservation has been confirmed!</p>
+<p>Here are your reservation details:</p>
+<table>
+    <tr><th>Field</th><th>Details</th></tr>
+    <tr><td>Reservation ID</td><td>[[${reservation.id}]]</td></tr>
+    <tr><td>Status</td><td>[[${reservation.status}]]</td></tr>
+    <tr><td>Location</td><td>[[${reservation.location.name}]]</td></tr>
+    <tr><td>Patient Name</td><td>[[${reservation.patient.firstName}]] [[${reservation.patient.lastName}]]</td></tr>
+    <tr><td>Condition</td><td>[[${reservation.patient.condition}]]</td></tr>
+</table>
+<p>We look forward to welcoming you!</p>
+</body>
+</html>

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Reservation Confirmation</title>
+</head>
+<body>
+<h1>Reservation Confirmation</h1>
+<p>Dear [[${guest.firstName}]],</p>
+<p>Your reservation has been confirmed.</p>
+<p>Reservation Details:</p>
+<ul>
+    <li><strong>Location:</strong> [[${reservation.location}]]</li>
+    <li><strong>Status:</strong> [[${reservation.status}]]</li>
+    <li><strong>Patient Name:</strong> [[${reservation.patient.firstName}]] [[${reservation.patient.lastName}]]</li>
+</ul>
+<p>Guests:</p>
+<ul>
+    <li th:each="guest : ${reservation.guests}">
+        [[${guest.firstName}]] [[${guest.lastName}]] - [[${guest.relationship}]]
+    </li>
+</ul>
+</body>
+</html>
