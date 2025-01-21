@@ -48,9 +48,10 @@ public class LocationsController {
     // Get a location by name
     @GetMapping("/{name}")
     public ResponseEntity<LocationWithoutIdDTO> getLocation(@PathVariable String name) {
-        logger.info("Received request for location: {}", name);
+        String inputName = name.trim();
+        logger.info("Received request for location: {}", inputName);
 //        try {
-            LocationWithoutIdDTO location = locationService.getLocationByName(name);
+            LocationWithoutIdDTO location = locationService.getLocationByName(inputName);
             logger.info("Fetched location: {}", location);
             return ResponseEntity.ok(location); // Return 200 OK with the location details
 //        } catch (IllegalArgumentException e) {
@@ -88,11 +89,12 @@ public class LocationsController {
     // Update an existing location
     @PutMapping("/{name}")
     public ResponseEntity<LocationWithoutIdDTO> updateLocation(@PathVariable String name, @RequestBody LocationWithoutIdDTO updatedLocation) {
+        String inputName = name.trim();
         System.out.println("name PUT: " + updatedLocation);
-        logger.info("Received PUT request to {} with name: {}", name,updatedLocation);
+        logger.info("Received PUT request to {} with name: {}", inputName,updatedLocation);
         logger.debug("PUT New data for {entity}: {}", updatedLocation);
 //        try {
-            LocationWithoutIdDTO newlyUpdatedLocation = locationService.updateLocation(name, updatedLocation);
+            LocationWithoutIdDTO newlyUpdatedLocation = locationService.updateLocation(inputName, updatedLocation);
             logger.info("PUT Successfully updated : {}", newlyUpdatedLocation);
             return ResponseEntity.ok(newlyUpdatedLocation); // Return 200 OK with the updated location
 //        } catch (IllegalArgumentException e) {
@@ -111,10 +113,11 @@ public class LocationsController {
 
     @DeleteMapping("/{name}")
     public ResponseEntity<Void> deleteLocation(@PathVariable String name) {
-        logger.info("Received request to delete {entity} with name: {}", name);
+        String inputName = name.trim();
+        logger.info("Received request to delete {entity} with name: {}", inputName);
 //        try {
-            locationService.deleteLocation(name); // Let the service handle the deletion
-            logger.info("Successfully deleted {entity} with name: {}", name);
+            locationService.deleteLocation(inputName); // Let the service handle the deletion
+            logger.info("Successfully deleted {entity} with name: {}", inputName);
             return ResponseEntity.noContent().build(); // Return 204 No Content on successful deletion
 //        } catch (IllegalArgumentException e) {
 //            // Handle the case where the location is not found
