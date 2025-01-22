@@ -6,6 +6,7 @@ import com.levdevs.freindshipbe.Entity.Guest;
 import com.levdevs.freindshipbe.Entity.Location;
 import com.levdevs.freindshipbe.Entity.Patient;
 import com.levdevs.freindshipbe.Entity.Reservation;
+import com.levdevs.freindshipbe.enums.ReservationStatus;
 import jakarta.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,12 +25,16 @@ public class ReservationService {
     private final ReservationRepository reservationRepository;
     private final LocationService locationService;
     private final S3Service s3Service;
+    private final EmailService emailService;
     private final Logger logger = LoggerFactory.getLogger(ReservationService.class);
+    private final AuditService auditService;
 
-    public ReservationService(ReservationRepository reservationRepository, LocationService locationService, S3Service s3Service) {
+    public ReservationService(ReservationRepository reservationRepository, LocationService locationService, S3Service s3Service, EmailService emailService, AuditService auditService) {
         this.reservationRepository = reservationRepository;
         this.locationService = locationService;
         this.s3Service = s3Service;
+        this.emailService = emailService;
+        this.auditService = auditService;
     }
 
     public FileUploadResponseDto uploadFile(HttpSession session, String path, MultipartFile file)  {
@@ -46,9 +51,37 @@ public class ReservationService {
             throw new RuntimeException(e);
         }
 
+        // Log the action
+        auditService.logAction(
+                session.getId(),
+                "UPLOAD_FILE",
+                filePath
+        );
+
+
         // Return the response
         return new FileUploadResponseDto("success " + session.getId() + " " + path);
     }
+
+    public ReservationAPIResponseDto updateReservation(Long reservationId, ReservationStatus status) {
+        Reservation reservation = reservationRepository.findById(reservationId).orElseThrow(() -> new RuntimeException("Reservation not found"));
+        reservation.setStatus(status);
+        Reservation reservationUpdated = reservationRepository.save(reservation);
+        logger.info("Reservation updated: " + reservationUpdated);
+
+        // Log the action
+        auditService.logAction(
+                "USER_ID",
+                "UPDATE_RESERVATION_STATUS",
+                status.toString()
+        );
+        //need to email the guests
+        emailService.sendStatusUpdateEmail(reservationUpdated, status);
+        return mapToDto(reservationUpdated);
+    }
+
+
+
 
     public ReservationAPIResponseDto saveReservation(HttpSession session, ApiRequestDto request) {
 
@@ -74,11 +107,22 @@ public class ReservationService {
         // then save the reservation
         Reservation reservationSaved =  reservationRepository.save(reservation);
         moveFiles(session, reservationSaved);
-       // s3Service.moveFiles(session.getId(), reservationSaved.getId());
+        reservationSaved.setStatus(ReservationStatus.PENDING);
+        logger.info("Reservation saved: " + reservationSaved);
+        Reservation reservationSavedPending =  reservationRepository.save(reservationSaved);
+        logger.info("Reservation saved pending: " + reservationSavedPending);
+
+        // Log the action
+        auditService.logAction(
+                session.getId(),
+                "CREATED_RESERVATION"
+        );
+
+        //need to email the guests
+        emailService.sendReservationConfirmationEmail(reservationSavedPending);
 
 
-
-        return mapToDto(reservationSaved );
+        return mapToDto(reservationSavedPending );
     }
 
     private void moveFiles(HttpSession session, Reservation reservationSaved) {
@@ -111,6 +155,8 @@ public class ReservationService {
 
     private ReservationAPIResponseDto mapToDto(Reservation reservation) {
         ReservationAPIResponseDto response = new ReservationAPIResponseDto();
+        response.setId(reservation.getId());
+        response.setStatus(reservation.getStatus());
         response.setLocation(reservation.getLocation().getName());
         response.setPatient(mapPatientToDto(reservation.getPatient()));
         response.setGuests(reservation.getGuests().stream()

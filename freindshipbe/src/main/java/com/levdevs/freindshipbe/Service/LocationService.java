@@ -20,11 +20,14 @@ public class LocationService {
     private final LocationRepository locationRepository;
     private final SubLocationRepository subLocationRepository;
     private static final Logger logger = LoggerFactory.getLogger(LocationService.class);
+    private final AuditService auditService;
 
 
-    public LocationService(LocationRepository locationRepository, SubLocationRepository subLocationRepository) {
+
+    public LocationService(LocationRepository locationRepository, SubLocationRepository subLocationRepository, AuditService auditService) {
         this.locationRepository = locationRepository;
         this.subLocationRepository = subLocationRepository;
+        this.auditService = auditService;
     }
 
     public List<Location> getAllLocations() {
@@ -135,6 +138,13 @@ public class LocationService {
         // Save the Location entity
         Location savedLocation = locationRepository.save(locationEntity);
 
+        // Log the action
+        auditService.logAction(
+                "Session ID",  // Assuming you have a session ID
+                "CREATED_LOCATION",
+                "Location name: " + location.name()
+        );
+
         // Map saved entity back to DTO
         return mapLocationToDTO(savedLocation);
     }
@@ -193,7 +203,12 @@ public class LocationService {
         Location temp = locationRepository.save(location);
         logger.info("Saved location: {}", temp);
 
-
+        // Log the action
+        auditService.logAction(
+                "Session ID",  // Assuming you have a session ID
+                "UPDATED_LOCATION",
+                "Location name: " + name
+        );
 
 
 
@@ -300,6 +315,12 @@ public class LocationService {
         if (locationOptional.isPresent()) {
             Location location = locationOptional.get();
             locationRepository.deleteById(location.getId());
+            // Log the action
+            auditService.logAction(
+                    "Session ID",  // Assuming you have a session ID
+                    "DELETE_LOCATION",
+                    "Location name: " + name
+            );
           //  deleteUnusedSubLocations(location, Collections.emptySet());
         } else {
             // Handle the case when the location is not found
