@@ -27,12 +27,14 @@ public class ReservationService {
     private final S3Service s3Service;
     private final EmailService emailService;
     private final Logger logger = LoggerFactory.getLogger(ReservationService.class);
+    private final AuditService auditService;
 
-    public ReservationService(ReservationRepository reservationRepository, LocationService locationService, S3Service s3Service, EmailService emailService) {
+    public ReservationService(ReservationRepository reservationRepository, LocationService locationService, S3Service s3Service, EmailService emailService, AuditService auditService) {
         this.reservationRepository = reservationRepository;
         this.locationService = locationService;
         this.s3Service = s3Service;
         this.emailService = emailService;
+        this.auditService = auditService;
     }
 
     public FileUploadResponseDto uploadFile(HttpSession session, String path, MultipartFile file)  {
@@ -49,6 +51,14 @@ public class ReservationService {
             throw new RuntimeException(e);
         }
 
+        // Log the action
+        auditService.logAction(
+                session.getId(),
+                "UPLOAD_FILE",
+                filePath
+        );
+
+
         // Return the response
         return new FileUploadResponseDto("success " + session.getId() + " " + path);
     }
@@ -58,6 +68,13 @@ public class ReservationService {
         reservation.setStatus(status);
         Reservation reservationUpdated = reservationRepository.save(reservation);
         logger.info("Reservation updated: " + reservationUpdated);
+
+        // Log the action
+        auditService.logAction(
+                "USER_ID",
+                "UPDATE_RESERVATION_STATUS",
+                status.toString()
+        );
         //need to email the guests
         emailService.sendStatusUpdateEmail(reservationUpdated, status);
         return mapToDto(reservationUpdated);
@@ -94,6 +111,13 @@ public class ReservationService {
         logger.info("Reservation saved: " + reservationSaved);
         Reservation reservationSavedPending =  reservationRepository.save(reservationSaved);
         logger.info("Reservation saved pending: " + reservationSavedPending);
+
+        // Log the action
+        auditService.logAction(
+                session.getId(),
+                "CREATED_RESERVATION"
+        );
+
         //need to email the guests
         emailService.sendReservationConfirmationEmail(reservationSavedPending);
 

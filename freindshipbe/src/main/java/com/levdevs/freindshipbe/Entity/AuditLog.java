@@ -13,11 +13,10 @@ public class AuditLog {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String userId; //session id or user id
-    private String actionType;
-    private String description;
-    private String createdBy;
-    private LocalDateTime timestamp;
+    private String userId; // User identifier, can be a string
+    private String action; // e.g., "CREATED_RESERVATION", "CHANGED_STATUS"
+    private LocalDateTime timestamp; // Action timestamp
+    private String details; // Additional information about the action (optional)
 
     // Getters and setters
 }
