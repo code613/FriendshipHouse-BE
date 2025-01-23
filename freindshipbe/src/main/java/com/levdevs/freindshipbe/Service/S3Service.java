@@ -5,16 +5,22 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import software.amazon.awssdk.core.ResponseInputStream;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.*;
 import software.amazon.awssdk.core.sync.RequestBody;
 import software.amazon.awssdk.services.s3.presigner.S3Presigner;
+import software.amazon.awssdk.services.s3.presigner.model.PresignedGetObjectRequest;
 import software.amazon.awssdk.services.s3.presigner.model.PresignedPutObjectRequest;
 import software.amazon.awssdk.services.s3.presigner.model.PutObjectPresignRequest;
-
+import org.springframework.mock.web.MockMultipartFile;
+import software.amazon.awssdk.services.s3.model.ListObjectVersionsRequest;
+import software.amazon.awssdk.services.s3.model.ListObjectVersionsResponse;
+import software.amazon.awssdk.services.s3.model.ObjectVersion;
 import java.io.IOException;
 import java.time.Duration;
 import java.net.URL;
+import java.util.List;
 
 @Service
 public class S3Service {
@@ -32,19 +38,93 @@ public class S3Service {
     }
 
     // Upload file to S3
-    public String uploadFile(MultipartFile file, String key) throws IOException {
+    public String uploadFile(MultipartFile file, String key)  {
         PutObjectRequest putObjectRequest = PutObjectRequest.builder()
                 .bucket(bucketName)
                 .key(key)
                 .contentType(file.getContentType())
                 .build();
 
-        PutObjectResponse response = s3Client.putObject(
-                putObjectRequest,
-                RequestBody.fromBytes(file.getBytes())
-        );
+        try {
+            PutObjectResponse response = s3Client.putObject(
+                    putObjectRequest,
+                    RequestBody.fromBytes(file.getBytes())
+            );
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
         return "https://" + bucketName + ".s3.amazonaws.com/" + key;
+    }
+
+    public List<ObjectVersion> listObjectVersions( String key) {
+        // Build the ListObjectVersionsRequest
+        ListObjectVersionsRequest listObjectVersionsRequest = ListObjectVersionsRequest.builder()
+                .bucket(bucketName)
+                .prefix(key)  // Optional: Limit to the specific object key
+                .build();
+
+        // List all versions of the object
+        ListObjectVersionsResponse response = s3Client.listObjectVersions(listObjectVersionsRequest);
+
+        // Get the list of versions
+        return response.versions();
+    }
+
+    public DeleteObjectResponse deleteFile(String key, String versionId) {
+        // Build the DeleteObjectRequest
+        DeleteObjectRequest.Builder deleteObjectRequestBuilder = DeleteObjectRequest.builder()
+                .bucket(bucketName)
+                .key(key);
+
+        // If versionId is provided, delete the specific version
+        if (versionId != null && !versionId.isEmpty()) {
+            deleteObjectRequestBuilder.versionId(versionId); // Specify the version ID to delete
+        }
+
+        // Delete the object (or version)
+        return s3Client.deleteObject(deleteObjectRequestBuilder.build());
+    }
+
+
+
+    public MultipartFile downloadFile(String key){
+        return downloadFile(key, null);
+    }
+
+    public MultipartFile downloadFile(String key, String versionId) {
+        try {
+            GetObjectRequest getObjectRequest;
+            if( versionId != null){
+                getObjectRequest = GetObjectRequest.builder()
+                        .bucket(bucketName)
+                        .key(key)
+                        .versionId(versionId)
+                        .build();
+            }else {
+                // Build the GetObjectRequest
+                getObjectRequest = GetObjectRequest.builder()
+                        .bucket(bucketName)
+                        .key(key)
+                        .build();
+            }
+            // Retrieve the file from S3
+            ResponseInputStream<GetObjectResponse> s3Object = s3Client.getObject(getObjectRequest);
+
+            // Convert the InputStream to a MultipartFile
+            MultipartFile multipartFile = new MockMultipartFile(
+                    key,                                // File name
+                    key,                                // Original file name
+                    s3Object.response().contentType(), // Content type
+                    s3Object                           // InputStream containing file data
+            );
+
+            return multipartFile;
+
+        } catch (Exception e) {
+            // Handle exceptions
+            throw new RuntimeException("Failed to download file from S3", e);
+        }
     }
 
     // Check if a file exists in the S3 bucket
@@ -129,4 +209,31 @@ public class S3Service {
 
         return presignedRequest.url();
     }
+
+    // Generate a presigned URL for file download
+    public String generatePresignedUrlForDownload( String filename) {
+        try {
+            // Create the GetObjectRequest
+            GetObjectRequest getObjectRequest = GetObjectRequest.builder()
+                    .bucket(bucketName)
+                    .key(filename)
+                    .build();
+
+            // Generate the Presigned URL
+            PresignedGetObjectRequest presignedRequest = s3Presigner.presignGetObject(
+                    builder -> builder
+                            .signatureDuration(Duration.ofMinutes(15)) // Set expiration
+                            .getObjectRequest(getObjectRequest)
+            );
+
+            // Return the Presigned URL
+            URL url = presignedRequest.url();
+            return url.toString();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Error generating presigned URL: " + e.getMessage());
+        }
+    }
+
 }

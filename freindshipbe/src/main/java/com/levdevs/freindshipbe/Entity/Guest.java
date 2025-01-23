@@ -4,6 +4,10 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 @Data
 @Entity
 public class Guest {
@@ -55,9 +59,23 @@ public class Guest {
 //    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
 //    private CheckInDetails checkInDetails;
 
+    @Temporal(TemporalType.DATE) // Using date instead of string for check-in date
     @Column(nullable = false)
-    private String checkInDate;
+    private Date checkInDate;
 
+    @Temporal(TemporalType.DATE) // Using date instead of string for check-out date
     @Column(nullable = false)
-    private String checkOutDate;
+    private Date checkOutDate;
+
+    // Method to convert String to Date
+    static private Date convertToDate(String dateString) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            return sdf.parse(dateString);
+        } catch (ParseException e) {
+            // Handle exception, maybe throw a custom exception or log the error
+            e.printStackTrace();
+            return null; // or return a default date
+        }
+    }
 }

@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.levdevs.freindshipbe.enums.ReservationStatus;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -89,6 +90,8 @@ public class emailTest {
 
         return patient;
     }
+    private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
+
 
     // Method to map GuestDto to GuestEntity
     private Guest mapGuestToEntity(GuestDto guestDto) {
@@ -104,8 +107,12 @@ public class emailTest {
         guestEntity.setCity(guestDto.city());
         guestEntity.setState(guestDto.state());
         guestEntity.setZip(guestDto.zip());
-        guestEntity.setCheckInDate(guestDto.checkInDate());
-        guestEntity.setCheckOutDate(guestDto.checkOutDate());
+        try {
+            guestEntity.setCheckInDate(DATE_FORMAT.parse(guestDto.checkInDate()));
+            guestEntity.setCheckOutDate(DATE_FORMAT.parse(guestDto.checkOutDate()));
+        } catch (Exception e) {
+            throw new IllegalArgumentException("Invalid date format");
+        }
         guestEntity.setCountry(guestDto.country());
 
         return guestEntity;

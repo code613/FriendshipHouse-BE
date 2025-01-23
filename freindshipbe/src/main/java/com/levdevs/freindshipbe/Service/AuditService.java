@@ -7,6 +7,7 @@ import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -24,6 +25,8 @@ public class AuditService {
     }
 
     public void logAction(String userId, String action, String details) {
+        System.out.println("this is the details: " + details);
+        System.out.println(details.getBytes().length);
         AuditLog log = new AuditLog();
         log.setUserId(userId);
         log.setAction(action);

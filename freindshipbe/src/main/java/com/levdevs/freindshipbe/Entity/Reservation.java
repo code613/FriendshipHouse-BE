@@ -4,6 +4,8 @@ import com.levdevs.freindshipbe.enums.ReservationStatus;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 @Data
@@ -29,6 +31,9 @@ public class Reservation {
 
     @Enumerated(EnumType.STRING) // Store the enum as a string
     private ReservationStatus status = ReservationStatus.NEW; // Default status is NEW
+
+    private LocalDateTime createdAt = LocalDateTime.now(); // Automatically set when the reservation is created
+
 }
 
 
