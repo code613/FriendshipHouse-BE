@@ -15,6 +15,10 @@ public class Reservation {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+
 //    private String friendshipHouseLocation;
 //    @ManyToOne(cascade = CascadeType.PERSIST) // Cascade persist ensures Location is saved when Reservation is saved
 //    @JoinColumn(name = "location_id" ) //, nullable = false)
